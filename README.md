@@ -1,6 +1,3 @@
-its similar to kobertdm bc i had implemented stb_image and gotten images to work the other day and figured I might aswell go on a side quest to create the worst image viewer ever
-
-
 **THANKS TO**
 Chocketa who fixed my flickering issue. Shout out to my boy
 
@@ -9,19 +6,23 @@ Chocketa who fixed my flickering issue. Shout out to my boy
 mage <filepath>
 ```
 
+Idk how to implement dragging the image with your mouse. Xlib documentation is really confusing.
 
-arrow keys to move the image up down left and right
-
-Idk how to implement dragging the image with your mouse
+im also too stubborn to try out xcb... im already too deep...
 
 
 **CONTROLS**
 
-arrow keys = moves the damn thing by 25 pixels
+arrow keys = moves the image by 25 pixels
 
-press enter = you will find out.... by testing or reading my code
+press c = centers the image
 
+press enter = you will find out....
 
 **NOTE**
 
-image will center when you resize/move the window. see XEvent.type == ConfigureNotify 
+image will no longer center when you resize/move the window. Just press c. its not that hard. get over it.
+
+(There was a bug where bigger images would lag a lot when resizing windows because center() would be called so often. I decided it doesnt have to be that way eitherway)
+
+XEvent.type == ConfigureNotify will now only do some double buffer stuff, implemented by Choketa
