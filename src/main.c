@@ -185,7 +185,6 @@ int main (int argc, char *argv[])
                             &source_x, &source_y, 
                             &image_x, &image_y
                     );
-                    printf("%d : %d : %d : %d\n", image_x, image_y, source_x, source_y);
                 }
 				if (key == XK_Return) {
                     inverse(m_LocalBuffer, m_Width, m_Height);
