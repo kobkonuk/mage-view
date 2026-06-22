@@ -30,7 +30,6 @@ else
 	exit 1
 fi
 
-
 if cp ./mage /usr/local/bin; then
 	echo 'copied ./mage to /usr/local/bin/ what a deporation'
 else
