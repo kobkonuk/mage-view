@@ -1,15 +1,8 @@
 #define STB_IMAGE_IMPLEMENTATION
-#include <X11/Xlib.h>
-#include <X11/keysym.h>
-#include "../vendor/stb_image.h" 
-
-#include <stdio.h>
 #include <string.h>
 #include <err.h>
 
-#include "inverse.h"
-#include "center.h"
-#include "redraw.h"
+#include "events.h"
 
 typedef struct {	
 	const char *jpg;
@@ -31,9 +24,6 @@ const char *GetFileType(const char *filename) {
 
 int main (int argc, char *argv[]) 
 {
-    Display *display;
-    XImage *image;
-
 	if (argc == 1) {
 		err(1, "Please provide a filepath to your desired image");
 	}
@@ -45,45 +35,9 @@ int main (int argc, char *argv[])
 	else if (strcmp(type, filetype.png) == 0);
 	else err(1, "Invalid filetype. Only JPEGs and PNGs are supported");	
 
-	display = XOpenDisplay(NULL);
-	if (display == NULL) err(1, "XOpenDisplay: error");
+    MageInit(&argv[1]);
 
-    int win_Width;
-    int win_Height;
-	
-    int m_Width;
-    int m_Height; 
-    int m_BPP;
-    
-    win_Width = m_Width;
-	win_Height = m_Height; //Make sure image is rendered differently depending on the window size
-
-    unsigned char *m_LocalBuffer;
-	
-	m_LocalBuffer = stbi_load(
-			argv[1], 
-			&m_Width, 
-			&m_Height, 
-			&m_BPP, 4
-    );
-    Window window;
-
-    window = XCreateSimpleWindow(
-			display,
-			XDefaultRootWindow(display),
-			0, 0,
-			m_Width, m_Height,
-			0,
-			0x00000000,
-			0x00000000
-    );
-	
-	inverse(m_LocalBuffer, m_Width, m_Height); 
-	
-	XWindowAttributes wa = {0};	
-	XGetWindowAttributes(display, window, &wa);
-
-	image = XCreateImage(
+    image = XCreateImage(
 			display,
 			wa.visual,
 			wa.depth,
@@ -96,124 +50,14 @@ int main (int argc, char *argv[])
 			m_Width * sizeof(int)
     );
 
-    GC gc;
+    int running = 1;
+	while (running) {
+        XEvent event;
+        if (!RenderEvents(event)) {
+            running = 0;
+        }
+	}
 
-	gc = XCreateGC(display, window, 0, NULL);	
-
-	Atom wm_delete_window = XInternAtom(
-			display, 
-			"WM_DELETE_WINDOW", 
-			False
-    );
-
-    Pixmap double_buffer;
-
-    double_buffer =  XCreatePixmap(
-            display, 
-            window, 
-            m_Width, 
-            m_Height, 
-            DefaultDepth(display, DefaultScreen(display))
-    );
-	
-	XSetWMProtocols(
-            display, 
-            window, 
-            &wm_delete_window, 
-            1
-    );
-
-	XSelectInput(display, window, 
-			KeyPressMask | 
-			ExposureMask |
-			StructureNotifyMask
-    );
-
-	XMapWindow(display, window);
-
-    int image_x  = 0;
-    int image_y  = 0;
-    int source_x = 0;
-    int source_y = 0;
-
-    XEvent event;
-	while (XNextEvent(display, &event) == 0) {
-		switch (event.type) {
-			case Expose:
-				if (event.xexpose.count == 0) {
-                    redraw(display, window, image, 
-                            double_buffer, gc, 
-                            source_x, source_y, 
-                            image_x, image_y, 
-                            m_Width, m_Height, 
-                            win_Width, win_Height
-                    );
-			    }
-            break;
-			
-			case ConfigureNotify:
-                if (win_Width != event.xconfigure.width || win_Height != event.xconfigure.height) 
-				{
-					win_Width  = event.xconfigure.width;
-                	win_Height = event.xconfigure.height;
-                	XFreePixmap(display, double_buffer);
-                	
-					double_buffer = XCreatePixmap(
-							display, 
-							window, 
-							win_Width, 
-							win_Height,
-					        DefaultDepth(display, DefaultScreen(display))
-                    );
-				} 
-			break;
-
-			KeySym key;
-			case KeyPress:
-				key = XLookupKeysym(&event.xkey, 0);
-
-				int speed = 25;
-
-				if (key == XK_Up)    image_y -= speed;
-				if (key == XK_Down)  image_y += speed;
-				if (key == XK_Left)  image_x -= speed;
-				if (key == XK_Right) image_x += speed;
-
-                if (key == XK_c) {
-                    center(win_Width, win_Height, 
-                            m_Width, m_Height, 
-                            &source_x, &source_y, 
-                            &image_x, &image_y
-                    );
-                }
-				if (key == XK_Return) {
-                    inverse(m_LocalBuffer, m_Width, m_Height);
-                }
-			break;
-
-			case ClientMessage:
-				if ((Atom) event.xclient.data.l[0] == wm_delete_window) {
-					printf("WM_SAVE_YOUSELF\n"); // This is apart of the official ICCCM documentation. Thank you Tsoding
-				    return 0;
-				} 
-			break;
-		}
-
-        redraw(display, window, image, 
-                double_buffer, gc, 
-                source_x, source_y, 
-                image_x, image_y, 
-                m_Width, m_Height, 
-                win_Width, win_Height
-        ); 
-	} 
-
-	stbi_image_free(m_LocalBuffer);
-
-    XFreePixmap(display, double_buffer);
-	XUnmapWindow(display, window);
-	XDestroyWindow(display, window);
-	XCloseDisplay(display);
-	
+    MageQuit();
 	return 0;
 }
