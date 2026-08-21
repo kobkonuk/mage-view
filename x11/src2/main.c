@@ -3,7 +3,7 @@
 #include "../../vendor/stb_image.h"
 #include "cli.h"
 #include "var.h"
-#include "render.h"
+#include "events.h"
 
 #include <stdio.h>
 
