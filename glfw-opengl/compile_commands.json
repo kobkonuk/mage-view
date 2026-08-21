@@ -1,0 +1,14 @@
+[
+  {
+    "file": "src/mage.c",
+    "arguments": [
+      "/usr/bin/gcc",
+      "-o",
+      "mage",
+      "src/mage.c",
+      "-O2"
+    ],
+    "directory": "/home/kob/repos/mage-view/glfw-opengl",
+    "output": "mage"
+  }
+]

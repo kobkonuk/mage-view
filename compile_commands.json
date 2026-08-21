@@ -1,0 +1,14 @@
+[
+  {
+    "file": "src/main.c",
+    "arguments": [
+      "/usr/bin/gcc",
+      "-o",
+      "mage",
+      "src/main.c",
+      "-O2"
+    ],
+    "directory": "/home/kob/repos/mage-view",
+    "output": "mage"
+  }
+]
