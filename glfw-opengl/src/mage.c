@@ -7,11 +7,9 @@
 #include <stdio.h>
 #include <err.h>
 
-// Not gonna do SDL3 this time because SDL3 is too bloated for smaller stuff
-// im only using it for games and cross platform stuff
-// im not planning to port this shit to windows lol
+#include "cli.h"
 
-static unsigned int CompileShader(unsigned int type, const char *source) {
+static unsigned int compile_shader(unsigned int type, const char *source) {
 	unsigned int id = glCreateShader(type);
 
 	glShaderSource(id, 1, &source, NULL);
@@ -24,12 +22,12 @@ static unsigned int CompileShader(unsigned int type, const char *source) {
 		int length = 0;
 		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
 
-        char* message = (char*)malloc(length * sizeof(char));
+        char* message = (char*)malloc(length * sizeof(char)); // i dont like heap allocations a lot but whatever
 		glGetShaderInfoLog(id, length, &length, message);
 
         printf("Failed to compile %s shader\n", type == GL_VERTEX_SHADER ? "vertex" : "fragment");
 
-		printf("%s", message);
+		printf("%s", message); // w for debugging
 
 		glDeleteShader(id);
         free(message);
@@ -39,10 +37,10 @@ static unsigned int CompileShader(unsigned int type, const char *source) {
 	return id;
 }
 
-static unsigned int CreateShader(const char *vertexShader, const char *fragmentShader) {
+static unsigned int create_shader(const char *vertexShader, const char *fragmentShader) {
 	unsigned int program = glCreateProgram();
-	unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
-	unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
+	unsigned int vs = compile_shader(GL_VERTEX_SHADER, vertexShader);
+	unsigned int fs = compile_shader(GL_FRAGMENT_SHADER, fragmentShader);
 
 	glAttachShader(program, vs);
 	glAttachShader(program, fs);
@@ -108,38 +106,18 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-typedef struct {	
-	const char *jpg;
-	const char *jpeg;
-	const char *png;
-} Filetype;
-
-Filetype filetype = {
-	.jpg  = ".jpg",
-	.jpeg = ".jpeg",
-	.png  = ".png"
-};
-
-const char *GetFileType(const char *filename) {
-	const char *dot = strrchr(filename, '.');
-	if(dot) return dot;
-	else err(1, "Invalid filetype. Try something called an 'image'");
-}
-
 int main(int argc, char *argv[]) 
 {
     char *image_path = argv[1];
 
     if (argc == 1) {
-		err(1, "Please provide a filepath to your desired image");
-	}
+        printf("Please provide a path to an image");
+        return 1;
+    }
 
-	const char *type = GetFileType(argv[1]);
-
-	if (strcmp(type, filetype.jpg) == 0);
-	else if (strcmp(type, filetype.jpeg) == 0);
-	else if (strcmp(type, filetype.png) == 0);
-	else err(1, "Invalid filetype. Only JPEGs and PNGs are supported");
+    if (!image_lowk_valid(argv)) {
+        return 1;
+    }
 
     if (!glfwInit()) {
         err(1, "glfwInit error");
@@ -236,7 +214,7 @@ int main(int argc, char *argv[])
     glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	unsigned int shader = CreateShader(
+	unsigned int shader = create_shader(
             shader_source.vertexShader, 
             shader_source.fragmentShader
     );
