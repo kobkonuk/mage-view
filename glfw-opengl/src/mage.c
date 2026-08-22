@@ -27,10 +27,7 @@ static unsigned int CompileShader(unsigned int type, const char *source) {
         char* message = (char*)malloc(length * sizeof(char));
 		glGetShaderInfoLog(id, length, &length, message);
 
-        printf("Failed to compile ", 
-                type == GL_VERTEX_SHADER ? "vertex" : "fragment", 
-                "shader"
-        );
+        printf("Failed to compile %s shader\n", type == GL_VERTEX_SHADER ? "vertex" : "fragment");
 
 		printf("%s", message);
 
@@ -157,7 +154,7 @@ int main(int argc, char *argv[])
     unsigned char *image = stbi_load(
             image_path,
             &width, &height,
-            &bpp, 0
+            &bpp, STBI_rgb_alpha
     );
 
     GLFWwindow *window = glfwCreateWindow(
@@ -223,14 +220,16 @@ int main(int argc, char *argv[])
             GL_STATIC_DRAW
     );
 
-    glVertexAttribPointer(
-            0, 3, 
-            GL_FLOAT, GL_FALSE, 
-            3 * sizeof(float), 
-            (void*)0
-    );
+    size_t stride = 8 * sizeof(float);
 
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
     glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, stride, (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
     glBindBuffer(GL_ARRAY_BUFFER, 0); 
 
     glBindVertexArray(0);     
@@ -256,13 +255,8 @@ int main(int argc, char *argv[])
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    
-    glTexImage2D(
-            GL_TEXTURE_2D, 0, 
-            GL_RGB, width, height, 0, 
-            GL_RGB, GL_UNSIGNED_BYTE, 
-            image
-    );
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 
     glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -280,7 +274,7 @@ int main(int argc, char *argv[])
 	}
 
     glDeleteVertexArrays(1, &vao);
-    glDeleteBuffers(1, &vao);
+    glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &ebo);
 	glDeleteProgram(shader);
 
