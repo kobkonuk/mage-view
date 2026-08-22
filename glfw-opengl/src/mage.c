@@ -63,11 +63,21 @@ int main(int argc, char *argv[])
 
     glewExperimental = GL_TRUE;
 
-    if (glewInit() != GLEW_OK) {
-        err(1, "GLEW_NOT_OK");
-        glfwTerminate();
-    }
-    
+	GLenum glerr = glewInit();
+
+	switch (glerr) {
+		case GLEW_OK:
+			//....continue
+		break;
+		case GLEW_ERROR_NO_GLX_DISPLAY:
+			printf("GLX display error: probably because youre on wayland");
+		break;
+		default:
+			printf("GLEW_NOT_OK");
+			return 1;
+		break;
+	}
+
     printf("%s\n", glGetString(GL_VERSION));
 
     unsigned int indices[] = {
