@@ -61,7 +61,48 @@ typedef struct {
     char fragmentShader[512];
 } shader_program_source;
 
-shader_program_source parse_shader(const char* shader_path) {
+shader_program_source parse_shader(const char *source) {
+    shader_program_source result = {0};
+    shader_type type = SHADER_NONE;
+
+    char buffer[4096];
+    strncpy(buffer, source, sizeof(buffer) - 1);
+    buffer[sizeof(buffer) - 1] = '\0';
+
+    char *line = strtok(buffer, "\n");
+
+    while (line != NULL) {
+        if (strstr(line, "#shader")) {
+            if (strstr(line, "#vertex")) {
+                type = SHADER_VERTEX;
+            }
+            else if (strstr(line, "fragment")) {
+                type = SHADER_FRAGMENT;
+            }
+        }
+
+        else {
+            switch (type) {
+                case SHADER_VERTEX:
+                    strcat(result.vertexShader, line);
+                    strcat(result.vertexShader, "\n");
+                break;
+                case SHADER_FRAGMENT:
+                    strcat(result.fragmentShader, line);
+                    strcat(result.fragmentShader, "\n");
+                break;
+                case SHADER_NONE:
+                    printf("ill take this memory.... and PARSE IT!!! *nothing was parsed");
+                break;
+            }
+        }
+        line = strtok(NULL, "\n");
+    }
+
+    return result;
+}
+
+shader_program_source parse_shader_file(const char* shader_path) {
     FILE *stream = fopen(shader_path, "r");
 
     shader_program_source source = {0};
@@ -78,7 +119,7 @@ shader_program_source parse_shader(const char* shader_path) {
                 type = SHADER_FRAGMENT;
             }
         }
-      
+
         else {
             switch (type) {
                 case SHADER_VERTEX:
@@ -92,7 +133,7 @@ shader_program_source parse_shader(const char* shader_path) {
                 break;
             }
         }
-    } 
+    }
 
     fclose(stream);
     return source;

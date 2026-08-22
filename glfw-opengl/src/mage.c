@@ -10,6 +10,7 @@
 #include "cli.h"
 #include "shader.h"
 #include "math.h"
+#include "glsl.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -75,7 +76,7 @@ int main(int argc, char *argv[])
     };
 
     shader_program_source shader_source = parse_shader(
-            "res/shaders/shader.glsl"
+            (const char*)res_shaders_shader_glsl
     );
 
     unsigned int vbo, vao, ebo;

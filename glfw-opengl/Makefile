@@ -3,7 +3,10 @@ CFLAGS =
 LDFLAGS = -lglfw -lGLEW -lGL -lm
 
 TARGET = mage
-SRCS = src/mage.c
+SRCS = src/mage.c src/*.h
+
+shaders/%.vert.h: res/shaders/shader.glsl
+	xxd -i $< > $@
 
 all: $(TARGET)
 
