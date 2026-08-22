@@ -8,11 +8,14 @@ layout(location = 2) in vec2 texCoord;
 out vec4 v_color;
 out vec2 v_TexCoord;
 
+uniform mat4 projection;
+uniform mat4 model;
+
 void main() 
 {
-	gl_Position = vec4(position, 1.0);
+    gl_Position = projection * model * vec4(position, 1.0);
     v_color = color;
-	v_TexCoord = texCoord;
+    v_TexCoord = texCoord;
 };
 
 #shader #fragment

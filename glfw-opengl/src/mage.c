@@ -8,98 +8,8 @@
 #include <err.h>
 
 #include "cli.h"
-
-static unsigned int compile_shader(unsigned int type, const char *source) {
-	unsigned int id = glCreateShader(type);
-
-	glShaderSource(id, 1, &source, NULL);
-	glCompileShader(id);
-
-	int result = 0;
-	glGetShaderiv(id, GL_COMPILE_STATUS, &result);
-
-	if (result == GL_FALSE) {
-		int length = 0;
-		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-
-        char* message = (char*)malloc(length * sizeof(char)); // i dont like heap allocations a lot but whatever
-		glGetShaderInfoLog(id, length, &length, message);
-
-        printf("Failed to compile %s shader\n", type == GL_VERTEX_SHADER ? "vertex" : "fragment");
-
-		printf("%s", message); // w for debugging
-
-		glDeleteShader(id);
-        free(message);
-		return 0;
-	}
-
-	return id;
-}
-
-static unsigned int create_shader(const char *vertexShader, const char *fragmentShader) {
-	unsigned int program = glCreateProgram();
-	unsigned int vs = compile_shader(GL_VERTEX_SHADER, vertexShader);
-	unsigned int fs = compile_shader(GL_FRAGMENT_SHADER, fragmentShader);
-
-	glAttachShader(program, vs);
-	glAttachShader(program, fs);
-	glLinkProgram(program);
-	glValidateProgram(program);
-
-	glDeleteShader(vs);
-	glDeleteShader(fs);
-
-	return program;
-}
-
-typedef enum {
-    SHADER_NONE = -1,
-    SHADER_VERTEX = 0,
-    SHADER_FRAGMENT = 1
-} shader_type;
-
-typedef struct {
-    char vertexShader[512];
-    char fragmentShader[512];
-} shader_program_source;
-
-shader_program_source parse_shader(const char* shader_path) {
-    FILE *stream = fopen(shader_path, "r");
-
-    shader_program_source source = {0};
-
-    char line[512];
-    shader_type type = SHADER_NONE;
-
-    while (fgets(line, sizeof(line), stream)) {
-        if (strstr(line, "#shader")) {
-            if (strstr(line, "#vertex")) {
-                type = SHADER_VERTEX;
-            }
-            else if (strstr(line, "fragment")) {
-                type = SHADER_FRAGMENT;
-            }
-        }
-      
-        else {
-            switch (type) {
-                case SHADER_VERTEX:
-                    strcat(source.vertexShader, line);
-                break;
-                case SHADER_FRAGMENT:
-                    strcat(source.fragmentShader, line);
-                break;
-                case SHADER_NONE:
-                    //printf("hello world... or i mean... hello ERROR!!");
-                break;
-            }
-        }
-    } 
-
-    fclose(stream);
-    return source;
-}
+#include "shader.h"
+#include "math.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -120,14 +30,14 @@ int main(int argc, char *argv[])
     }
 
     if (!glfwInit()) {
-        err(1, "glfwInit error");
+        printf("glfw init error\n");
+        return 1;
     }
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 
-    // sorry for the inconsistent variable naming
     int width, height, bpp;
     unsigned char *image = stbi_load(
             image_path,
@@ -159,18 +69,10 @@ int main(int argc, char *argv[])
     
     printf("%s\n", glGetString(GL_VERSION));
 
-    float vertices[] = {
-        // positions          // colors           // texture coords
-         0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
-    };
-
     unsigned int indices[] = {
-        0, 1, 3,   // first triangle
-        1, 2, 3    // second triangle
-    };  
+        0, 1, 3,
+        1, 2, 3    
+    };
 
     shader_program_source shader_source = parse_shader(
             "res/shaders/shader.glsl"
@@ -224,6 +126,10 @@ int main(int argc, char *argv[])
     
     GLint loc = glGetUniformLocation(shader, "u_Texture");
     glUniform1i(loc, 0);
+
+    float projection[16];
+    ortho2d(projection, 0.0f, (float)width, 0.0f, (float)height);
+    glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, GL_FALSE, projection);
     
     unsigned int texture;
     glGenTextures(1, &texture);
@@ -243,9 +149,13 @@ int main(int argc, char *argv[])
 
         glUseProgram(shader);
         glBindVertexArray(vao);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-		glEnd();
+
+        float model[16];
+        model2d(model, 0.0f, 0.0f, width, height);
+        glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, model);
+
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -259,6 +169,5 @@ int main(int argc, char *argv[])
     stbi_image_free(image);
 
 	glfwTerminate();
-    printf("exit success");
 	return 0;
 }
