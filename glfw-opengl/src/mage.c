@@ -1,4 +1,6 @@
 #define STB_IMAGE_IMPLEMENTATION
+#define NK_IMPLEMENTATION
+#include "../../vendor/nuklear.h"
 #include "../../vendor/stb_image.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -72,7 +74,7 @@ int main(int argc, char *argv[])
 		case GLEW_ERROR_NO_GLX_DISPLAY:
 			printf("GLX display error: probably because youre on wayland");
 		break;
-		default:
+		default: 
 			printf("GLEW_NOT_OK");
 			return 1;
 		break;
@@ -155,7 +157,8 @@ int main(int argc, char *argv[])
 
     glGenerateMipmap(GL_TEXTURE_2D);
 
-	while (!glfwWindowShouldClose(window)) {
+	while (!glfwWindowShouldClose(window)) 
+    {
 		glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(shader);
