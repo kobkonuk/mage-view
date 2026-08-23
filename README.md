@@ -1,39 +1,41 @@
-**NOTE**
+**simple image viewer**
 
-image will no longer center when you resize/move the window. Just press c. its not that hard. get over it.
-
-(There was a bug where bigger images would lag a lot when resizing windows because center() would be called so often. I decided it doesnt have to be that way eitherway)
-
-XEvent.type == ConfigureNotify will now only do some double buffer stuff, implemented by Choketa
-
-.
-
-The performance is also shit. I dont know why, maybe im just fucking stupid. i tried to use feh to compare my project to it but i just felt depressed. 
-
-(feh has wayy better performance, especially bigger images)
-
-WHy is it lagging!@!???? Any Xlib professionals??? Im sure its not an x11 issue(Not like I can just go 'lower level' anyways) 
-
-.
-
-
-**THANKS TO**
-Chocketa who fixed my flickering issue. Shout out to my boy
-
+Despite it being named "mage" sort of implying that it "works like magic" I find this project shit. I plan for this to have all sorts of maybe useless features, as long as they are easy to implement.
 
 ```
 mage <filepath>
 ```
 
-Idk how to implement dragging the image with your mouse. Xlib documentation is really confusing.
 
-im also too stubborn to try out xcb... im already too deep...
+**building**
+
+makefile! make opengl! install.sh it!
+
+you need.... glfw..... glew..... opengl 4.....
+
+**NOTE**
+
+WILL NOW MAINLY BE OPENGL FOCUSED!!!! I DONT LIKE XLIB!!!!
+
+**GLFW CONTROLS**
+nothing yet. just resize window
 
 
-**CONTROLS**
+**XLIB CONTROLS**
 
 arrow keys = moves the image by 25 pixels
 
 press c = centers the image
 
 press enter = you will find out....
+
+
+**TODO**
+
+implement nuklear and find documentation for glfw controls. Ive set up uniforms so doing things like zooming in, scaling/stretching and of course inversing the colors!!!!
+
+Will also play around with other opengl fun stuff like repeating textures
+
+
+**THANKS TO**
+Chocketa who fixed my xlib flickering issue. Shout out to my boy
