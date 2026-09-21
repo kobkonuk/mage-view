@@ -31,14 +31,15 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    //shader_program_source shader_source = parse_shader(
-    //        (const char*)res_shaders_shader_glsl
-    //);
+    shader_program_source shader_source = parse_shader(
+            (const char*)res_shaders_shader_glsl
+    );
 
-    shader_program_source shader_source = parse_shader_file(
-            "res/shaders/shader.glsl"
-    ); // use parse_shader_file when debugging 
-       // no need to wait for compiling
+    //shader_program_source shader_source = parse_shader_file(
+    //        "res/shaders/shader.glsl"
+    //); 
+    // use parse_shader_file when debugging 
+    // no need to wait for compiling
     
     unsigned int shader = create_shader(
             shader_source.vertexShader, 

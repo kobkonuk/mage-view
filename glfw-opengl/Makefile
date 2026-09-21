@@ -11,7 +11,9 @@ shaders/%.glsl: $(SHDR)
 
 all: $(TARGET)
 
-$(TARGET): $(SRCS) $(SHDR)
+#I DONT KNOW A THING ABOUT MAKEFILES SO JUST xxd -i res/shaders/shader.glsl > src/glsl.h manually
+
+$(TARGET): $(SRCS) $(SHDR)	
 	$(CC) -o $(TARGET) $(SRCS) $(LDFLAGS) -O2
 
 clean:
