@@ -102,8 +102,11 @@ shader_program_source parse_shader(const char *source) {
     return result;
 }
 
+#ifdef DEBUG
 shader_program_source parse_shader_file(const char* shader_path) {
     FILE *stream = fopen(shader_path, "r");
+
+    printf("fopening shaderfile");
 
     shader_program_source source = {0};
 
@@ -138,5 +141,6 @@ shader_program_source parse_shader_file(const char* shader_path) {
     fclose(stream);
     return source;
 }
+#endif
 
 #endif

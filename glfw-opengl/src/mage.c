@@ -31,16 +31,20 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+#ifndef DEBUG
     shader_program_source shader_source = parse_shader(
-            (const char*)res_shaders_shader_glsl
+            (const char*)glfw_opengl_res_shaders_shader_glsl
     );
+#endif
 
-    //shader_program_source shader_source = parse_shader_file(
-    //        "res/shaders/shader.glsl"
-    //); 
+#ifdef DEBUG
+    shader_program_source shader_source = parse_shader_file(
+            "res/shaders/shader.glsl"
+    ); 
     // use parse_shader_file when debugging 
-    // no need to wait for compiling
-    
+    // no need to wait for compiling when editing shader.glsl
+#endif
+
     unsigned int shader = create_shader(
             shader_source.vertexShader, 
             shader_source.fragmentShader
