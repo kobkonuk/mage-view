@@ -11,14 +11,15 @@ mage <filepath>
 
 makefile! make opengl! install.sh it!
 
-you need.... glfw..... glew..... opengl 4.....
+you need.... glfw..... glew..... opengl 3.3 .....
 
 **NOTE**
 
 WILL NOW MAINLY BE OPENGL FOCUSED!!!! I DONT LIKE XLIB!!!!
 
 **GLFW CONTROLS**
-nothing yet. just resize window
+
+HOLD ENTER! OR USE THE NUKLEAR THING! 
 
 
 **XLIB CONTROLS**
@@ -32,10 +33,9 @@ press enter = you will find out....
 
 **TODO**
 
-implement nuklear and find documentation for glfw controls. Ive set up uniforms so doing things like zooming in, scaling/stretching and of course inversing the colors!!!!
+a way to "hide" the nuklear thingymabob with a keybind so that you can fully focus on the image
 
-Will also play around with other opengl fun stuff like repeating textures
-
+just gotta figure out nuklear sliders and have that work with zooming in and out of the image
 
 **THANKS TO**
 Chocketa who fixed my xlib flickering issue. Shout out to my boy
