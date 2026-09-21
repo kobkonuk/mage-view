@@ -9,13 +9,19 @@ mage <filepath>
 
 **building**
 
-makefile! make opengl! install.sh it!
+make opengl
 
 you need.... glfw..... glew..... opengl 3.3 .....
 
 **NOTE**
 
 WILL NOW MAINLY BE OPENGL FOCUSED!!!! I DONT LIKE XLIB!!!!
+
+if you start programming before compiling, you would get the error that glfw-opengl/src/glsl.h doesn't exist. just compile and then everything will be fine
+
+or manually:
+
+xxd -i res/shaders/shader.glsl > glfw-opengl/src/glsl.h
 
 **GLFW CONTROLS**
 
