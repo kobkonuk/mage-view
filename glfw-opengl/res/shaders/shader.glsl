@@ -27,8 +27,20 @@ in vec4 v_color;
 in vec2 v_TexCoord;
 
 uniform sampler2D u_Texture;
+uniform bool b_inverse;
+
+vec4 inverse(vec4 fcolor) {
+    vec4 tmpcolor = vec4(fcolor.b, fcolor.g, fcolor.r, 1);
+    return tmpcolor;
+}
 
 void main()
 {
-    color = texture(u_Texture, v_TexCoord);
+    vec4 fcolor = texture(u_Texture, v_TexCoord);
+    if (b_inverse == true) {
+        color = inverse(fcolor);
+    }
+    else {
+        color = fcolor;
+    }
 };

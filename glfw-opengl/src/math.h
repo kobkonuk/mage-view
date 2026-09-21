@@ -9,6 +9,12 @@ float vertices[] = {
     0.0f, 1.0f, 0.0f,   1,1,0,      0,1,
 };
 
+unsigned int indices[] = {
+    0, 1, 3,
+    1, 2, 3    
+};
+
+
 void ortho2d(float *m, float left, float right, float bottom, float top) {
     for (int i = 0; i < 16; i++) m[i] = 0.0f;
     m[0]  = 2.0f / (right - left);
@@ -27,6 +33,6 @@ void model2d(float *m, float x, float y, float w, float h) {
     m[12] = x;    // translate x
     m[13] = y;    // translate y
     m[15] = 1.0f;
-}
+} // view matrix isnt needed right now... when i do need it ill just snatch it from stackoverflow.... heh
 
 #endif
