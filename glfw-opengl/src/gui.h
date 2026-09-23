@@ -64,6 +64,7 @@ int draw_gui_setup() {
         }
         if (nk_option_label(ctx, "inverted", op == INVERTED)) {
             op = INVERTED;
+			b_inverse = true;
         }
         if (nk_option_label(ctx, "stretch n scale", op == STRETCH)) {
             op = STRETCH;
