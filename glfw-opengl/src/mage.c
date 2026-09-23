@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
         glBindTexture(GL_TEXTURE_2D, texture);
 
         float model[16];
-        model2d(model, 0.0f, 0.0f, width, height);
+        model2d(model, zoom.x, zoom.y, width+zoom.w, height+zoom.h);
         glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, model);
         glUniform1i(glGetUniformLocation(shader, "b_inverse"), b_inverse);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

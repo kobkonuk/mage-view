@@ -12,4 +12,13 @@ unsigned int vbo, vao, ebo;
 unsigned int texture;
 _Bool b_inverse = 0;
 
+typedef struct {
+    float x;
+    float y;
+    float w;
+    float h;
+} ZoomDimensions;
+
+ZoomDimensions zoom = {0.0f};
+
 #endif
