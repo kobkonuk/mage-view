@@ -2,9 +2,6 @@
 #include <GLFW/glfw3.h>
 #include <GL/glext.h>
 
-#include <stdio.h>
-#include <err.h>
-
 #include "cli.h"
 #include "shader.h"
 #include "math.h"
@@ -16,14 +13,9 @@
 
 int main(int argc, char *argv[]) 
 {
-    if (argc == 1) {
-        printf("Please provide a path to an image");
-        return 1;
-    }
-
     image_path = argv[1];
 
-    if (!image_lowk_valid(argv)) {
+    if (!image_lowk_valid(image_path, argc)) {
         return 1;
     }
 
@@ -54,7 +46,7 @@ int main(int argc, char *argv[])
 
     glUseProgram(shader);
     glBindVertexArray(vao);
-    
+
     GLint loc = glGetUniformLocation(shader, "u_Texture");
     glUniform1i(loc, 0);
 

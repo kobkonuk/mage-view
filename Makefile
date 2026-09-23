@@ -3,7 +3,7 @@ CFLAGS =
 LDFLAGS = -lX11 -lXext -lm
 GLLDFLAGS = -lglfw -lGLEW -lGL -lm
 TARGET = mage
-SRCS = src/main.c
+SRCS = x11/src/main.c
 
 SHADER_SRC = glfw-opengl/res/shaders/shader.glsl
 SHADER_HDR = glfw-opengl/src/glsl.h

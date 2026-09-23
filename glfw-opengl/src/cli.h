@@ -14,16 +14,21 @@ const char *get_file_type(const char *filename) {
     }
 }
 
-bool image_lowk_valid(char *argv[]) {
+bool image_lowk_valid(char *image_path, int argc) {
+    if (argc == 1) {
+        printf("Please provide a path to an image");
+        return false;
+    }
+
     const char supported_filetypes[3][10] = {
         ".jpg",
         ".jpeg",
         ".png"
     };
 
-    const char *filetype = get_file_type(argv[1]);
-    
-    if (!filetype) {
+    const char *filetype = get_file_type(image_path);
+
+	if (!filetype) {
         return false;
     }
 
