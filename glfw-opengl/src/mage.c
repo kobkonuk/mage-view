@@ -11,16 +11,15 @@
 #include "gui.h"
 #include "glbufferray.h"
 
-int main(int argc, char *argv[]) 
+int program(int argc, char *argv[]) 
 {
     image_path = argv[1];
-
     if (!image_lowk_valid(image_path, argc)) {
-        return 1;
+        return 0;
     }
 
     if (!init_program()) {
-        return 1;
+        return 0;
     }
 
 #ifndef DEBUG
@@ -105,5 +104,23 @@ int main(int argc, char *argv[])
     stbi_image_free(image);
 
 	glfwTerminate();
+	return 1;
+}
+
+#ifdef __linux__
+int main(int argc, char *argv[]) {
+	if (!program(argc, argv)) {
+		return 1;
+	}
 	return 0;
 }
+#endif
+
+#ifdef _WIN32
+int WinMain(int argc, char *argv[]) {
+	if (!program(argc, argv)) {
+		return 1;
+	}
+	return 0;
+}
+#endif

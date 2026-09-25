@@ -10,7 +10,6 @@
 #include "var.h"
 
 #include <stdio.h>
-#include <err.h>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -41,7 +40,7 @@ int init_program() {
     );
 
     if (!window) {
-        err(1, "GLFWwindow error");
+        printf("GLFWwindow error\n");
         glfwTerminate();
     }
 
