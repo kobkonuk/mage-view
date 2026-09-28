@@ -9,9 +9,18 @@ mage <filepath>
 
 **building**
 
+```
 make opengl
+```
 
-you need.... glfw..... glew..... opengl 3.3 .....
+or for windows:
+```
+make opengl-win
+```
+you will need mingw stuff set up for make, xxd and gcc.
+I am planning to get dat shit easier to compile on windows
+But who doesnt use WSL anyways
+
 
 **NOTE**
 
@@ -23,18 +32,19 @@ or manually:
 
 xxd -i res/shaders/shader.glsl > glfw-opengl/src/glsl.h
 
-**GLFW CONTROLS**
+**CONTROLS** things marked -G: is not present in the opengl version, -X for missing in x11
 
-HOLD ENTER! OR USE THE NUKLEAR THING! 
+-G: arrow keys = moves the image by 25 pixels 
 
+-G: press c = centers the image // though both will be simple to implement
 
-**XLIB CONTROLS**
+-X: press s = toggle stretch n scale
 
-arrow keys = moves the image by 25 pixels
-
-press c = centers the image
+-X: press i = zoom in, buggy!
+-X: press o = zoom out, super buggy
 
 press enter = you will find out....
+
 
 
 **TODO**

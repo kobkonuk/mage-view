@@ -27,7 +27,7 @@ struct nk_colorf bg;
 int init_gui() {
     ctx = nk_glfw3_init(&glfw, window, NK_GLFW3_INSTALL_CALLBACKS);
    
-    char font_path[] = "../res/ComicShannsMonoNerd.otf";
+    char font_path[] = "../../res/ComicShannsMonoNerd.otf";
     struct nk_font_atlas *atlas;
     nk_glfw3_font_stash_begin(&glfw, &atlas);
     
@@ -41,7 +41,7 @@ int init_gui() {
 int draw_gui_setup() {
     nk_glfw3_new_frame(&glfw);
 
-    if (nk_begin(ctx, image_path, nk_rect(50, 50, 250, 250), 
+    if (nk_begin(ctx, image_path, nk_rect(50, 50, 320, 250), 
                 NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|
                 NK_WINDOW_SCALABLE|NK_WINDOW_MINIMIZABLE|
                 NK_WINDOW_TITLE))

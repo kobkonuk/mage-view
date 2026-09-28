@@ -99,10 +99,8 @@ int program(int argc, char *argv[])
         glUniform1i(glGetUniformLocation(shader, "b_inverse"), b_inverse);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        if (gui_show) {
-            draw_gui_setup();
-            sure_draw_gui();
-        }
+        draw_gui_setup();
+        sure_draw_gui();
 
 		glfwSwapBuffers(window);
 	}

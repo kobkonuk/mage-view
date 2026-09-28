@@ -15,6 +15,7 @@ unsigned int vbo, vao, ebo;
 unsigned int texture;
 
 bool gui_show = true;
+int gui_pos = 50;
 bool b_inverse = false;
 bool stretch_n_scale = false;
 

@@ -18,9 +18,8 @@ void input_magic(GLFWwindow* window) {
             else stretch_n_scale = true;
         }
         
-        if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS) {
-            if (gui_show) gui_show = false;
-            else gui_show = true;
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+			gui_pos -= 10;
         }
 
         if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) {
