@@ -10,6 +10,7 @@
 #include "init.h"
 #include "gui.h"
 #include "glbufferray.h"
+#include "input.h"
 
 int program(int argc, char *argv[]) 
 {
@@ -48,10 +49,6 @@ int program(int argc, char *argv[])
 
     GLint loc = glGetUniformLocation(shader, "u_Texture");
     glUniform1i(loc, 0);
-
-    float projection[16];
-    ortho2d(projection, 0.0f, (float)width, 0.0f, (float)height);
-    glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, GL_FALSE, projection);
     
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -70,12 +67,8 @@ int program(int argc, char *argv[])
     while (!glfwWindowShouldClose(window)) 
     {
 		glfwPollEvents();
-        if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-            glfwSetWindowShouldClose(window, GLFW_TRUE);
-        }
-        if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS) {
-            b_inverse = true; // not a toggle... but you hold it in... epic
-        }
+
+        input_magic(window);
 
 		glClear(GL_COLOR_BUFFER_BIT);
 
@@ -83,15 +76,33 @@ int program(int argc, char *argv[])
         glBindVertexArray(vao);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture);
+        
+        glfwGetFramebufferSize(window, &width, &height);
+        if (stretch_n_scale) glViewport(0, 0, width, height);
+        
+        float projection[16];
+        float aspect = (float)width / (float)height;
+        ortho2d(projection, 0.0f, (float)width, 0.0f, (float)height);
+
+        glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, GL_FALSE, projection);
 
         float model[16];
-        model2d(model, zoom.x, zoom.y, width+zoom.w, height+zoom.h);
+        if (stretch_n_scale) {
+            model2d(model, zoom.x, zoom.y, width+zoom.w, height+zoom.h);
+        }
+        else {
+            model2d(model, zoom.x, zoom.y, iwidth+zoom.w, iheight+zoom.h);
+        }
+
         glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, model);
+        
         glUniform1i(glGetUniformLocation(shader, "b_inverse"), b_inverse);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        draw_gui_setup();
-        sure_draw_gui();
+        if (gui_show) {
+            draw_gui_setup();
+            sure_draw_gui();
+        }
 
 		glfwSwapBuffers(window);
 	}

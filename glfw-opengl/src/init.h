@@ -11,10 +11,12 @@
 
 #include <stdio.h>
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-    glViewport(0, 0, width, height);
-}
+//void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+//{
+//    if (stretch_n_scale) {
+//        //glViewport(0, 0, width, height);
+//    }
+//}
 
 int init_program() {
     if (!glfwInit()) {
@@ -32,6 +34,11 @@ int init_program() {
             &bpp, STBI_rgb_alpha
     );
 
+    iwidth = width;
+    iheight = height;
+
+    printf("%d %d %d %d", iwidth, iheight, width, height);
+
     window = glfwCreateWindow(
             width,
             height,
@@ -45,7 +52,7 @@ int init_program() {
     }
 
     glfwMakeContextCurrent(window); 
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    //glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     glewExperimental = GL_TRUE;
 

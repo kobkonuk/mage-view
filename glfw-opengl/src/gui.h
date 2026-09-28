@@ -49,7 +49,8 @@ int draw_gui_setup() {
                 NK_WINDOW_TITLE))
     {
         enum {NORMAL, INVERTED, STRETCH, ISTATIC};
-        static int op = NORMAL;
+        static int cop = NORMAL;
+        static int sop = ISTATIC;
         static int property = 20;
         
         //nk_layout_row_static(ctx, 30, 80, 1);
@@ -58,19 +59,21 @@ int draw_gui_setup() {
 
         nk_layout_row_dynamic(ctx, 30, 2);
         
-        if (nk_option_label(ctx, "normal color", op == NORMAL)) {
-            op = NORMAL;
+        if (nk_option_label(ctx, "normal color", cop == NORMAL)) {
+            cop = NORMAL;
             b_inverse = false;
         }
-        if (nk_option_label(ctx, "inverted", op == INVERTED)) {
-            op = INVERTED;
+        if (nk_option_label(ctx, "inverted", cop == INVERTED)) {
+            cop = INVERTED;
 			b_inverse = true;
         }
-        if (nk_option_label(ctx, "stretch n scale", op == STRETCH)) {
-            op = STRETCH;
+        if (nk_option_label(ctx, "stretch n scale", sop == STRETCH)) {
+            sop = STRETCH;
+            stretch_n_scale = true;
         }
-        if (nk_option_label(ctx, "static", op == ISTATIC)) {
-            op = ISTATIC;
+        if (nk_option_label(ctx, "static", sop == ISTATIC)) {
+            sop = ISTATIC;
+            stretch_n_scale = false;
         }
         nk_layout_row_dynamic(ctx, 25, 1);
         nk_property_int(ctx, "Compression:", 0, &property, 100, 10, 1);

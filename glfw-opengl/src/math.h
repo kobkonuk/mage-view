@@ -14,7 +14,6 @@ unsigned int indices[] = {
     1, 2, 3    
 };
 
-
 void ortho2d(float *m, float left, float right, float bottom, float top) {
     for (int i = 0; i < 16; i++) m[i] = 0.0f;
     m[0]  = 2.0f / (right - left);

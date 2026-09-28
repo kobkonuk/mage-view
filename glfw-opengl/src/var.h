@@ -3,14 +3,22 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <stdbool.h>
 
 int width, height, bpp;
+int iwidth, iheight;
 unsigned char *image;
 char *image_path;
 GLFWwindow *window;
 unsigned int vbo, vao, ebo;
 unsigned int texture;
-_Bool b_inverse = 0;
+
+bool gui_show = true;
+bool b_inverse = false;
+bool stretch_n_scale = false;
+
+
+float am_zoom = 10;
 
 typedef struct {
     float x;
