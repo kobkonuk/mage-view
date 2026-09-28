@@ -3,6 +3,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <GL/glext.h>
 #include <stdbool.h>
 
 int width, height, bpp;

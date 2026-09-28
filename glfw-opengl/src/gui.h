@@ -18,8 +18,6 @@ struct nk_glfw glfw;
 struct nk_context *ctx;
 struct nk_colorf bg;
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include "../../vendor/nuklear.h"
 #include "../../vendor/nuklear_glfw_gl3.h"
 

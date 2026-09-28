@@ -5,7 +5,10 @@ CFLAGS =
 LDFLAGS = -lX11 -lXext -lm
 
 GLLDFLAGS = -lglfw -lGLEW -lGL -lm
-WIN_FLAGS = -lglfw3 -lglew32 -lopengl32 -lgdi32 -static -static-libgcc -DGLEW_STATIC
+MINGW_FLAGS = -lglfw3 -lglew32 -lopengl32 -lgdi32 -static -static-libgcc -DGLEW_STATIC
+WIN_CFLAGS = -Ivendor/windows/GLEW/include -Ivendor/windows/GLFW/include -static -static-libgcc -DGLEW_STATIC
+WIN_LDFLAGS = -Lvendor/windows/GLEW/lib -Lvendor/windows/GLFW/lib
+WIN_LIBS = -lglfw3 -lglew32 -lopengl32 -lgdi32
 
 TARGET = mage
 WIN_TARGET = mage.exe
@@ -26,7 +29,7 @@ opengl:
 
 opengl-win:
 	xxd -i $(SHADER_SRC) > $(SHADER_HDR)
-	$(WINCC) -o $(WIN_TARGET) glfw-opengl/src/mage.c $(WIN_FLAGS) -O2
+	$(CC) -o $(WIN_TARGET) glfw-opengl/src/mage.c $(WIN_CFLAGS) $(WIN_LDFLAGS) $(WIN_LIBS) -O2
 
 clean:
 	rm -f $(TARGET) $(SHADER_HDR)

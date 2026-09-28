@@ -118,15 +118,14 @@ int program(int argc, char *argv[])
 	return 1;
 }
 
-#ifdef __linux__
 int main(int argc, char *argv[]) {
 	if (!program(argc, argv)) {
 		return 1;
 	}
 	return 0;
 }
-#endif
 
+/*
 #ifdef _WIN32
 int WinMain(int argc, char *argv[]) {
 	if (!program(argc, argv)) {
@@ -135,3 +134,7 @@ int WinMain(int argc, char *argv[]) {
 	return 0;
 }
 #endif
+
+Apparently you don't need winmain for cli programs
+
+*/

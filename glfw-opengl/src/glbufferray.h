@@ -1,9 +1,6 @@
 #ifndef GLBUFFERRAY_H
 #define GLBUFFERRAY_H
 
-#include <GL/glew.h>
-#include <GL/glext.h>
-#include <GLFW/glfw3.h>
 #include "var.h"
 #include "math.h"
 
