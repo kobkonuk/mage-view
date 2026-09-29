@@ -24,18 +24,10 @@ void input_magic(GLFWwindow* window) {
         }
 
         if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) {
-            zoom.x -= am_zoom;
-            zoom.y -= am_zoom;
-
-            zoom.w += am_zoom;
-            zoom.h += am_zoom;
+			zoom_image();
         }
         if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS) {
-            zoom.x += am_zoom;
-            zoom.y += am_zoom;
-
-            zoom.w -= am_zoom;
-            zoom.h -= am_zoom;
+			zoom_out();
         }
 }
 
