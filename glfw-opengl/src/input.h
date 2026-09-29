@@ -2,6 +2,7 @@
 #define INPUT_H
 
 #include "var.h"
+#include "commands.h"
 #include <stdbool.h>
 
 void input_magic(GLFWwindow* window) {
