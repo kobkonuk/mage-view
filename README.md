@@ -1,6 +1,6 @@
 **simple image viewer**
 
-Despite it being named "mage" sort of implying that it "works like magic" I think this it actually works like shit. I plan for this to have all sorts of maybe useless features, as long as they are easy to implement.
+Despite it being named "mage" sort of implying that it "works like magic" I think this actually works like shit. I plan for this to have all sorts of maybe useless features, as long as they are easy to implement.
 
 ```
 mage <filepath>
