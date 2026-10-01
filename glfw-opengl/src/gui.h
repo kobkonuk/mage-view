@@ -27,7 +27,7 @@ struct nk_colorf bg;
 int init_gui() {
     ctx = nk_glfw3_init(&glfw, window, NK_GLFW3_INSTALL_CALLBACKS);
    
-    char font_path[] = "../../res/ComicShannsMonoNerd.otf";
+    char font_path[] = "../../res/ComicShannsMonoNerd.otf"; // lowk doesnt work i needa look into dis
     struct nk_font_atlas *atlas;
     nk_glfw3_font_stash_begin(&glfw, &atlas);
     
@@ -49,7 +49,6 @@ int draw_gui_setup() {
         enum {NORMAL, INVERTED, STRETCH, ISTATIC};
         static int cop = NORMAL;
         static int sop = ISTATIC;
-        static int property = 20;
         
         //nk_layout_row_static(ctx, 30, 80, 1);
         //if (nk_button_label(ctx, "button"))
@@ -74,7 +73,7 @@ int draw_gui_setup() {
             stretch_n_scale = false;
         }
         nk_layout_row_dynamic(ctx, 25, 1);
-        nk_property_int(ctx, "Compression:", 0, &property, 100, 10, 1);
+        nk_property_int(ctx, "Compression:", 0, &am_zoom, 1000, 20, 10);
     }
     nk_end(ctx);
 

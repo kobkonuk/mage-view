@@ -20,15 +20,14 @@ void input_magic(GLFWwindow* window) {
         }
         
         if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-			gui_pos -= 10;
         }
 
         if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) {
-			zoom_image();
-        }
+			pos.x += 20;
+		}
         if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS) {
-			zoom_out();
-        }
+        	am_zoom -= 20;
+		}
 }
 
 #endif

@@ -19,16 +19,15 @@ int gui_pos = 50;
 bool b_inverse = false;
 bool stretch_n_scale = false;
 
-
-float am_zoom = 10;
+int am_zoom = 100;
 
 typedef struct {
     float x;
     float y;
     float w;
     float h;
-} ZoomDimensions;
+} Positions;
 
-ZoomDimensions zoom = {0.0f};
+Positions pos = {0.0f};
 
 #endif

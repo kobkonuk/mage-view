@@ -15,6 +15,10 @@ all: $(TARGET)
 
 $(TARGET): $(SRCS) $(SHDR)	
 	$(CC) -o $(TARGET) $(SRCS) $(LDFLAGS) $(DEBUG_FLAGS)
+	./$(TARGET) ../cirnoinside.jpg
 
 clean:
 	rm -f $(TARGET)
+
+run:
+	./$(TARGET) ../cirnoinside.jpg
