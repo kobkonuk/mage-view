@@ -3,6 +3,7 @@
 #include <GL/glext.h>
 
 #include "cli.h"
+#include "commands.h"
 #include "shader.h"
 #include "math.h"
 #include "glsl.h"
@@ -81,11 +82,12 @@ int program(int argc, char *argv[])
         
 		if (stretch_n_scale) {
 			glViewport(0, 0, width, height);
+            pos.x = 0;
+            pos.y = 0;
         	pos.w = width;
 			pos.h = height;
 		} else {
-			pos.w = iwidth;
-			pos.h = pos.y + iheight;
+            position_check();
         }
 
         float projection[16];
@@ -102,7 +104,6 @@ int program(int argc, char *argv[])
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         draw_gui_setup();
-		cmd_check();
 		sure_draw_gui();
 
 		glfwSwapBuffers(window);

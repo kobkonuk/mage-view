@@ -73,7 +73,7 @@ int draw_gui_setup() {
             stretch_n_scale = false;
         }
         nk_layout_row_dynamic(ctx, 25, 1);
-        nk_property_int(ctx, "Compression:", 0, &am_zoom, 1000, 20, 10);
+        nk_property_int(ctx, "zoom:", 0, &am_zoom, 1000, 20, 10);
     }
     nk_end(ctx);
 
