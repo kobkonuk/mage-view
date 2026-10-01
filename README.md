@@ -1,6 +1,6 @@
 **simple image viewer**
 
-Despite it being named "mage" sort of implying that it "works like magic" I find this project shit. I plan for this to have all sorts of maybe useless features, as long as they are easy to implement.
+Despite it being named "mage" sort of implying that it "works like magic" I think this it actually works like shit. I plan for this to have all sorts of maybe useless features, as long as they are easy to implement.
 
 ```
 mage <filepath>
@@ -34,15 +34,14 @@ xxd -i res/shaders/shader.glsl > glfw-opengl/src/glsl.h
 
 **CONTROLS** things marked -G: is not present in the opengl version, -X for missing in x11
 
--G: arrow keys = moves the image by 25 pixels 
-
 -G: press c = centers the image // though both will be simple to implement
 
--X: press s = toggle stretch n scale
+-X: press space = stretch n scale
 
--X: press i = zoom in, buggy!
--X: press o = zoom out, super buggy
+-X: press i = zoom in
+-X: press o = zoom out
 
+arrow keys/wasd = moves the image
 press enter = you will find out....
 
 
@@ -51,7 +50,9 @@ press enter = you will find out....
 
 a way to "hide" the nuklear thingymabob with a keybind so that you can fully focus on the image
 
-just gotta figure out nuklear sliders and have that work with zooming in and out of the image
+Fit image, fill image and a center command
+
+fix zoom
 
 **THANKS TO**
 Chocketa who fixed my xlib flickering issue. Shout out to my boy
