@@ -41,7 +41,9 @@ xxd -i res/shaders/shader.glsl > glfw-opengl/src/glsl.h
 -X: press i = zoom in
 -X: press o = zoom out
 
+
 arrow keys/wasd = moves the image
+
 press enter = you will find out....
 
 
