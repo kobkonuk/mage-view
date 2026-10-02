@@ -4,24 +4,28 @@
 #include "var.h"
 #include <stdbool.h>
 
-int zoom_xy() {
-    int temp = am - am_zoom;
+float zoom_xy() {
+    float temp = am - am_zoom;
     return temp;
 }
-int zoom_wh() {
-    int temp = 2 * am_zoom - am;
+float pos_div() {
+	float temp = pos.x / pos.y;
+	return temp;
+}
+float zoom_wh() {
+    float temp = 2 * (am_zoom - am) * pos_div();
     return temp;
 }
-int fit(int var, int ivar) {
-    int temp = (var - ivar) /2;
+float fit(float var, float ivar) {
+    float temp = (var - ivar) /2;
     return temp;
 }
-int fill() {
-    int temp;
+float fill() {
+    float temp;
     return temp;
 }
-int center() {
-    int temp;
+float center() {
+    float temp;
     return temp;
 }
 

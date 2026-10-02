@@ -9,7 +9,7 @@
 #define ZOOM 100
 
 int width, height, bpp;
-int iwidth, iheight;
+float iwidth, iheight;
 unsigned char *image;
 char *image_path;
 GLFWwindow *window;
@@ -23,8 +23,8 @@ bool b_fit = false;
 bool b_fill = false;
 bool b_center = false;
 
-int am_zoom = ZOOM;
-int am = ZOOM;
+float am_zoom = ZOOM;
+float am = ZOOM;
 
 typedef struct {
     float x;
